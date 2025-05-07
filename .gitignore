@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# Archivos generados por Tailwind CLI
+tailwind.css
+tailwind.min.css
+*.tmp
+
+# Logs
+npm-debug.log*
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configs de editores
+.vscode/
+.idea/
+
+# Variables de entorno (si las usas)
+.env
