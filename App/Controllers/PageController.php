@@ -3,7 +3,7 @@ class PageController extends Controller
 {
     public function home()
     {
-        echo "estoy en home";
+        $this->render('Landing', 'home', [], 'site');
     }
     public function listar()
     {

@@ -18,8 +18,8 @@
     </div>
 </section>
 
-<section class="hidden lg:block max-w-[1200px] mx-auto mt-16 px-4">
-    <div class="stats stats-vertical lg:stats-horizontal shadow-2xl rounded-2xl bg-white w-full items-center">
+<section class="block max-w-[1200px] mx-auto mt-16 px-4">
+    <div class="stats stats-horizontal shadow-2xl rounded-2xl bg-white w-full items-center">
         <div class="stat text-center p-8">
             <div class="stat-value text-5xl font-bold text-orange-500">31K</div>
             <div class="stat-title text-gray-600 text-lg">Descargas</div>
