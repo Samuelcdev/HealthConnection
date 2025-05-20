@@ -4,7 +4,9 @@
         "tailwindcss": "^4.1.5"
     },
     "devDependencies": {
-        "daisyui": "^5.0.35"
+        "autoprefixer": "^10.4.21",
+        "daisyui": "^5.0.35",
+        "postcss": "^8.5.3"
     },
     "scripts": {
         "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./Public/output.css --watch"
