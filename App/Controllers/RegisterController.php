@@ -32,7 +32,7 @@ class RegisterController extends Controller
         $existingUser = $this->userModel->getById($numberDocument);
         if ($existingUser) {
             $_SESSION['error'] = "El usuario ya existe";
-            header("Location: /Register/showRegister");
+            header("Location: showRegister");
             exit;
         }
 
@@ -49,7 +49,7 @@ class RegisterController extends Controller
         $this->userModel->insert($data);
 
         $_SESSION['success'] = "El usuario ha sido registrado correctamente";
-        header("Location: /Login/showLogin");
+        $this->render('Auth', 'Login', [], 'guest');
         exit;
     }
 
