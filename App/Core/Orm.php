@@ -72,30 +72,17 @@ class Orm
 
     public function insert($data)
     {
+        $columns = implode(', ', array_keys($data));
+        $placeholders = ':' . implode(', :', array_keys($data));
 
-        $sql = "INSERT INTO $this->table (";
-
-        foreach ($data as $key => $value) {
-            $sql .= ":$key";
-        }
-
-        $sql = trim($sql, ",");
-        $sql .= ") VALUES (";
-
-        foreach ($data as $key => $value) {
-            $sql .= ":$key, ";
-        }
-
-        $sql = trim($sql, ",");
-        $sql .= ")";
+        $sql = "INSERT INTO $this->table ($columns) VALUES ($placeholders)";
         $stmt = $this->database->prepare($sql);
 
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
 
-        $stmt->execute();
-
+        return $stmt->execute();
     }
 
     public function paginate($page, $limit)

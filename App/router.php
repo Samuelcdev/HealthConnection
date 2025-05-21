@@ -11,13 +11,22 @@ class Router
 
     public function machtRoute()
     {
-        $url = explode("/", URL);
-        $this->controller = !empty($url[1]) ? $url[1] : 'Page';
-        $this->method = !empty($url[2]) ? $url[2] : 'home';
+        $url = explode('/', URL);
 
-        $this->controller = $this->controller . "Controller";
-        require_once(__DIR__ . "/Controllers/" . $this->controller . ".php");
+        $controllerName = !empty($url[1]) ? $url[1] : 'Page';
+        $this->method = !empty($url[2]) ? $url[2] : 'index';
+        $this->controller = $controllerName . "Controller";
+
+        // Buscar solo en Controllers/ (no subcarpetas)
+        $controllerFile = __DIR__ . "/Controllers/{$this->controller}.php";
+
+        if (!file_exists($controllerFile)) {
+            die("❌ Error: No se encontró el controlador '{$this->controller}'");
+        }
+
+        require_once($controllerFile);
     }
+
 
     public function run()
     {

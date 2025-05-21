@@ -178,7 +178,7 @@ INSERT INTO `examinationtype` (`examinationTypeId`, `examinationTypeName`, `exam
 
 CREATE TABLE `healthplan` (
   `healthPlanId` int(11) NOT NULL,
-  `healthPlanName` varchar(100) DEFAULT NULL,
+  `healthPlanName` varchar(100) NOT NULL,
   `healthPlanDescription` varchar(255) DEFAULT NULL,
   `healthPlanPrice` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -188,10 +188,11 @@ CREATE TABLE `healthplan` (
 --
 
 INSERT INTO `healthplan` (`healthPlanId`, `healthPlanName`, `healthPlanDescription`, `healthPlanPrice`) VALUES
-(1, 'Plan Personal', 'Adquiere un 20% de descuento en cada consulta y examen y recibe una consulta gratis cada 3 meses', 105000),
-(2, 'Plan Personal Plus', 'Adquiere un 50% de descuento en cada consulta y examen y recibe 3 consultas gratis cada 3 meses', 175000),
-(3, 'Plan Familiar', 'Adquiere un 70% de descuento en cada consultar y examen y recibe 5 consultas gratis cada 3 meses', 200000),
-(4, 'Plan Familiar Plus', 'Adquiere un 100% de descuento en cada consulta y examen', 275000);
+(1, 'Plan Gratuito', 0),
+(2, 'Plan Personal', 'Adquiere un 20% de descuento en cada consulta y examen y recibe una consulta gratis cada 3 meses', 105000),
+(3, 'Plan Personal Plus', 'Adquiere un 50% de descuento en cada consulta y examen y recibe 3 consultas gratis cada 3 meses', 175000),
+(4, 'Plan Familiar', 'Adquiere un 70% de descuento en cada consultar y examen y recibe 5 consultas gratis cada 3 meses', 200000),
+(5, 'Plan Familiar Plus', 'Adquiere un 100% de descuento en cada consulta y examen', 275000);
 
 -- --------------------------------------------------------
 

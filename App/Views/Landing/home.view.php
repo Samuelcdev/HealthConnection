@@ -5,7 +5,7 @@
 <section class="hero min-h-[590px] mx-auto w-full max-w-[1200px] mt-10">
     <div
         class="hero-content flex flex-col justify-center items-center text-center lg:flex-row-reverse lg:items-center lg:justify-between lg:text-left w-full h-full p-6 box-content">
-        <img src="Images/Doctor_Patient.png" alt="Atención médica"
+        <img src="<?= BASE_URL ?>/Images/Doctor_Patient.png" alt="Atención médica"
             class="hidden md:block w-[550px] object-cover transition-transform duration-500 hover:scale-105" />
         <div class="max-w-xl">
             <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-800 mb-6 leading-tight">

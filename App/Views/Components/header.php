@@ -42,7 +42,7 @@
             class="flex items-center gap-2 border border-black bg-orange-500 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
             <i class="fa-solid fa-user text-sm"></i> Iniciar Sesión
         </a>
-        <a href="#"
+        <a href="Register/showRegister"
             class="flex items-center gap-2 border border-black text-gray-800 hover:bg-orange-500 hover:text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
             <i class="fa-solid fa-user-plus text-sm"></i> Registrarme
         </a>

@@ -9,14 +9,8 @@
 </head>
 
 <body class="bg-orange-50">
-    <?php
-    require_once(__DIR__ . "/../Components/header.php");
-    ?>
     <?=
         $content;
-    ?>
-    <?php
-    require_once(__DIR__ . "/../Components/footer.php");
     ?>
 </body>
 
