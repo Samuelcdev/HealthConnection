@@ -7,11 +7,8 @@
 
   <div class="w-1/3 max-w-md mx-auto flex items-center bg-gradient-to-br from-orange-100 to-white">
     <div class="bg-white shadow-2xl rounded-3xl p-8 w-full">
-
       <h2 class="text-3xl font-extrabold text-center text-orange-500 mb-8">Crear tu Cuenta</h2>
-
       <form method="post" action="register">
-
         <div class="mb-4">
           <label for="typeDocument" class="block text-sm font-medium text-orange-500 mb-1">
             <i class="fas fa-id-card mr-2"></i>Tipo de Documento
@@ -92,30 +89,30 @@
 session_start();
 ?>
 <?php if (isset($_SESSION['error'])): ?>
-<script>
-  Swal.fire({
-    icon: 'error',
-    title: 'Error',
-    text: '<?= $_SESSION['error'] ?>',
-    confirmButtonColor: '#f97316'
-  })
-</script>
-<?php unset($_SESSION['error']); ?>
+  <script>
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: '<?= $_SESSION['error'] ?>',
+      confirmButtonColor: '#f97316'
+    })
+  </script>
+  <?php unset($_SESSION['error']); ?>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['success'])): ?>
-<script>
-  Swal.fire({
-    icon: 'success',
-    title: 'Exito',
-    text: '<?= $_SESSION['success'] ?>',
-    confirmButtonColor: '#f97316',
-    allowOutsideClick: false,
-    allowEscapeKey: false
-  }).then(() => {
-    window.location.href = '<?= BASE_URL ?>/Login/showLogin';
-  })
-</script>
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Exito',
+      text: '<?= $_SESSION['success'] ?>',
+      confirmButtonColor: '#f97316',
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then(() => {
+      window.location.href = '<?= BASE_URL ?>/Login/showLogin';
+    })
+  </script>
 
-<?php unset($_SESSION['success']); ?>
+  <?php unset($_SESSION['success']); ?>
 <?php endif; ?>

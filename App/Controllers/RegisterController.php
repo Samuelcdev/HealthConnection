@@ -24,7 +24,7 @@ class RegisterController extends Controller
         $password = $_POST['password'];
 
         if (empty($typeDocument) || empty($numberDocument) || empty($email) || empty($name) || empty($lastname) || empty($password)) {
-            $_SESSION['error'] = "Campos obligatorios faltantes";
+            $_SESSION['error'] = "Todos los campos son obligatorios";
             header("Location: showRegister");
             exit;
         }
@@ -49,7 +49,7 @@ class RegisterController extends Controller
         $this->userModel->insert($data);
 
         $_SESSION['success'] = "El usuario ha sido registrado correctamente";
-        $this->render('Auth', 'Login', [], 'guest');
+        $this->render('Auth', 'Register', [], 'guest');
         exit;
     }
 

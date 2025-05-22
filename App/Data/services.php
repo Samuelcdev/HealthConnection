@@ -16,6 +16,6 @@ return [
         'title' => 'Soporte Integral',
         'description' => 'Recibe acompañamiento médico en todo el proceso de atención con seguimiento personalizado.',
         'img' => 'https://cdn-icons-png.flaticon.com/512/2593/2593341.png',
-        'tags' => ['Paciente', 'Ayuda'],        
+        'tags' => ['Paciente', 'Ayuda'],
     ]
 ];
