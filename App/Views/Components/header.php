@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-
 <nav
     class="sticky top-5 z-50 max-w-[1200px] mx-auto mb-5 py-3 px-4 flex items-center justify-between bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-md transition-all duration-300 ease-in-out">
     <div class="flex items-center">
@@ -24,11 +23,31 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a class="hover:text-orange-500">Contacto</a></li>
             </ul>
         </div>
-        <a href="#" class="text-2xl font-extrabold text-gray-800 hover:text-orange-500 transition-all duration-300">
+        <a href="<?= BASE_URL ?>"
+            class="text-2xl font-extrabold text-gray-800 hover:text-orange-500 transition-all duration-300">
             Health Connection
         </a>
     </div>
-    <?php if (isset($_SESSION['user'])): ?>
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'Admin'): ?>
+        <div class="hidden lg:flex">
+            <ul class="menu menu-horizontal gap-5 text-[16px] font-medium">
+                <li><a class="text-gray-700 hover:text-orange-500" href="<?= BASE_URL ?>">Inicio</a></li>
+                <li><a class="text-gray-700 hover:text-orange-500" href="#">Citas</a></li>
+                <li><a class="text-gray-700 hover:text-orange-500" href="#">Usuarios</a></li>
+                <li><a class="text-gray-700 hover:text-orange-500" href="#">Doctores</a></li>
+            </ul>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="#"
+                class="flex items-center gap-2 border border-black bg-orange-500 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
+                <i class="fa-solid fa-user text-sm"></i> Mi perfil
+            </a>
+            <a href="<?= BASE_URL ?>/Login/logout"
+                class="flex items-center gap-2 border border-black text-gray-800 hover:bg-orange-500 hover:text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
+                <i class="fa-solid fa-user-plus text-sm"></i> Cerrar Sesion
+            </a>
+        </div>
+    <?php elseif (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'Patient'): ?>
         <div class="hidden lg:flex">
             <ul class="menu menu-horizontal gap-5 text-[16px] font-medium">
                 <li><a class="text-gray-700 hover:text-orange-500">Inicio</a></li>
@@ -45,22 +64,22 @@ if (session_status() === PHP_SESSION_NONE) {
             </ul>
         </div>
         <div class="flex items-center gap-3">
-            <a href="Login/showLogin"
+            <a href="#"
                 class="flex items-center gap-2 border border-black bg-orange-500 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
                 <i class="fa-solid fa-user text-sm"></i> Mi perfil
             </a>
-            <a href="Login/logout"
+            <a href="<?= BASE_URL ?>/Login/logout"
                 class="flex items-center gap-2 border border-black text-gray-800 hover:bg-orange-500 hover:text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
                 <i class="fa-solid fa-user-plus text-sm"></i> Cerrar Sesion
             </a>
         </div>
     <?php else: ?>
         <div class="flex items-center gap-3">
-            <a href="Login/showLogin"
+            <a href="<?= BASE_URL ?>/Login/showLogin"
                 class="flex items-center gap-2 border border-black bg-orange-500 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
                 <i class="fa-solid fa-user text-sm"></i> Iniciar Sesión
             </a>
-            <a href="Register/showRegister"
+            <a href="<?= BASE_URL ?>/Register/showRegister"
                 class="flex items-center gap-2 border border-black text-gray-800 hover:bg-orange-500 hover:text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
                 <i class="fa-solid fa-user-plus text-sm"></i> Registrarme
             </a>

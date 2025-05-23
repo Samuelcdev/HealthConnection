@@ -4,7 +4,7 @@ $servicios = require_once(__DIR__ . "/../../Data/services.php");
 
 <section class="hero min-h-[590px] mx-auto w-full max-w-[1200px] mt-10">
     <div
-        class="hero-content flex flex-col justify-center items-center text-center lg:flex-row-reverse lg:items-center lg:justify-between lg:text-left w-full h-full p-6 box-content">
+        class="hero-content flex flex-col justify-center items-center text-center lg:flex-row-reverse lg:items-center lg:justify-between lg:text-left w-full h-full px-8 py-6">
         <img src="<?= BASE_URL ?>/Images/Doctor_Patient.png" alt="Atención médica"
             class="hidden md:block w-[550px] object-cover transition-transform duration-500 hover:scale-105" />
         <div class="max-w-xl">
@@ -15,10 +15,11 @@ $servicios = require_once(__DIR__ . "/../../Data/services.php");
                 Bienvenido a nuestro sistema clínico digital. Agenda citas, consulta tus datos médicos y accede a
                 nuestros servicios de forma segura y rápida.
             </p>
-            <button
-                class="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl">
-                <i class="fa-solid fa-plus"></i> Unirme ahora
-            </button>
+            <a href="#">
+                <button class="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl">
+                    <i class="fa-solid fa-plus"></i> Unirme ahora
+                </button>
+            </a>
         </div>
     </div>
 </section>

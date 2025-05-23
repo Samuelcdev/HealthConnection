@@ -269,7 +269,7 @@ CREATE TABLE `user` (
   `userSex` enum('M','F','O') DEFAULT NULL,
   `userDocumentType` int(11) NOT NULL,
   `userPlan` int(11) NOT NULL,
-  `userRoleId` int(11) DEFAULT 1,
+  `userRoleId` int(11) DEFAULT 3,
   `userStatus` enum('Active','Inactive') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

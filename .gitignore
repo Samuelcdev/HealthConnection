@@ -2,7 +2,7 @@
 node_modules/
 
 # Archivos generados por Tailwind CLI
-output.css
+Public/output.css
 tailwind.css
 tailwind.min.css
 *.tmp
@@ -20,3 +20,4 @@ Thumbs.db
 
 # Variables de entorno
 .env
+

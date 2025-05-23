@@ -5,7 +5,7 @@
     </a>
   </div>
 
-  <div class="w-1/3 max-w-md mx-auto flex items-center bg-gradient-to-br from-orange-100 to-white">
+  <div class="w-1/3 max-w-md mx-auto flex items-center">
     <div class="bg-white shadow-2xl rounded-3xl p-8 w-full">
       <h2 class="text-3xl font-extrabold text-center text-orange-500 mb-8">Crear tu Cuenta</h2>
       <form method="post" action="register">
@@ -59,7 +59,7 @@
             placeholder="Apellidos" />
         </div>
 
-        <div class="mb-6">
+        <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-orange-500 mb-1">
             <i class="fas fa-lock mr-2"></i>Contraseña
           </label>
@@ -68,7 +68,7 @@
             placeholder="Contraseña" />
         </div>
 
-        <div class="flex justify-between mb-6 text-sm">
+        <div class="flex justify-between items-center mb-6 text-sm">
           <a href="<?= BASE_URL ?>/Login/showLogin" class="text-orange-500 hover:underline">
             <i class="fas fa-sign-in-alt mr-1"></i>¿Ya tienes cuenta?
           </a>
@@ -113,6 +113,5 @@ session_start();
       window.location.href = '<?= BASE_URL ?>/Login/showLogin';
     })
   </script>
-
   <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
