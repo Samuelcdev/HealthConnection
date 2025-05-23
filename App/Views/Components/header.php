@@ -32,8 +32,8 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="hidden lg:flex">
             <ul class="menu menu-horizontal gap-5 text-[16px] font-medium">
                 <li><a class="text-gray-700 hover:text-orange-500" href="<?= BASE_URL ?>">Inicio</a></li>
+                <li><a class="text-gray-700 hover:text-orange-500" href="<?= BASE_URL ?>/Admin/users">Usuarios</a></li>
                 <li><a class="text-gray-700 hover:text-orange-500" href="#">Citas</a></li>
-                <li><a class="text-gray-700 hover:text-orange-500" href="#">Usuarios</a></li>
                 <li><a class="text-gray-700 hover:text-orange-500" href="#">Doctores</a></li>
             </ul>
         </div>

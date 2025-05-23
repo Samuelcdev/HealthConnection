@@ -18,4 +18,18 @@ class UserModel extends Orm
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getUsers()
+    {
+        $sql = "SELECT u.*, dt.documentTypeName AS documentTypeName, hp.healthPlanName AS healthPlanName, 
+                CONCAT(u.userName, ' ' ,u.userLastname) AS fullName
+                FROM user u
+                JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
+                JOIN healthPlan hp ON u.userPlan = hp.healthPlanId";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

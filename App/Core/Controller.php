@@ -3,8 +3,8 @@ class Controller
 {
     protected function render($folder, $path, $parameters = [], $layout = '')
     {
-        if (!empty($paremeters)) {
-            extract($paremeters);
+        if (!empty($parameters)) {
+            extract($parameters);
         }
 
         ob_start();
