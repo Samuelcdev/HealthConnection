@@ -2,7 +2,7 @@
 node_modules/
 
 # Archivos generados por Tailwind CLI
-Public/output.css
+output.css
 tailwind.css
 tailwind.min.css
 *.tmp

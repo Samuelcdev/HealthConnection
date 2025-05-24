@@ -11,13 +11,19 @@ class Router
 
     public function machtRoute()
     {
-        $url = explode('/', URL);
+        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 
-        $controllerName = !empty($url[1]) ? $url[1] : 'Page';
-        $this->method = !empty($url[2]) ? $url[2] : 'index';
+        if (strpos($requestUri, $scriptName) === 0) {
+            $requestUri = substr($requestUri, strlen($scriptName));
+        }
+
+        $url = explode('/', trim($requestUri, '/'));
+
+        $controllerName = !empty($url[0]) ? $url[0] : 'Page';
+        $this->method = !empty($url[1]) ? $url[1] : 'index';
         $this->controller = $controllerName . "Controller";
 
-        // Buscar solo en Controllers/ (no subcarpetas)
         $controllerFile = __DIR__ . "/Controllers/{$this->controller}.php";
 
         if (!file_exists($controllerFile)) {
@@ -34,6 +40,11 @@ class Router
         $connection = $database->getConnection();
         $controller = new $this->controller($connection);
         $method = $this->method;
+
+        if (!method_exists($controller, $method)) {
+            die("Error: no se encontro el metodo '{$method}' en '{$this->controller}'");
+        }
+
         $controller->$method();
     }
 }

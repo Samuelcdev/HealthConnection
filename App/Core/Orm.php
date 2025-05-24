@@ -84,18 +84,4 @@ class Orm
 
         return $stmt->execute();
     }
-
-    public function paginate($page, $limit)
-    {
-        $offset = ($page - 1) * $limit;
-
-        $sql = "SELECT * FROM  $this->table LIMIT $offset";
-
-        $stmt = $this->database->prepare($sql);
-        $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return [
-            "data" => $data,
-        ];
-    }
 }

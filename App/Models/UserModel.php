@@ -19,17 +19,50 @@ class UserModel extends Orm
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUsers()
+    public function getFilteredPaginatedUsers($page, $limit, $status = '', $plan = '', $search = '')
     {
-        $sql = "SELECT u.*, dt.documentTypeName AS documentTypeName, hp.healthPlanName AS healthPlanName, 
-                CONCAT(u.userName, ' ' ,u.userLastname) AS fullName
-                FROM user u
-                JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
-                JOIN healthPlan hp ON u.userPlan = hp.healthPlanId";
+        $offset = ($page - 1) * $limit;
+
+        $sql = "SELECT u.*, dt.documentTypeName, hp.healthPlanName,
+                   CONCAT(u.userName, ' ', u.userLastname) AS fullName
+            FROM user u
+            INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
+            INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
+            WHERE 1 = 1";
+
+        $params = [];
+
+        if (!empty($status)) {
+            $sql .= " AND u.userStatus = :status";
+            $params[':status'] = $status === 'activo' ? 'Active' : 'Inactive';
+        }
+
+        if (!empty($plan)) {
+            $sql .= " AND hp.healthPlanName LIKE :plan";
+            $params[':plan'] = '%' . $plan . '%';
+        }
+
+        if (!empty($search)) {
+            $sql .= " AND (
+            u.userDocument LIKE :search OR 
+            CONCAT(u.userName, ' ', u.userLastname) LIKE :search
+        )";
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        $sql .= " LIMIT :offset, :limit";
 
         $stmt = $this->database->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
