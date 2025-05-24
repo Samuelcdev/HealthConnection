@@ -32,17 +32,20 @@ class UserModel extends Orm
 
         $params = [];
 
-        if (!empty($status)) {
+        if (!empty($status)) 
+        {
             $sql .= " AND u.userStatus = :status";
             $params[':status'] = $status === 'activo' ? 'Active' : 'Inactive';
         }
 
-        if (!empty($plan)) {
+        if (!empty($plan)) 
+        {
             $sql .= " AND hp.healthPlanName LIKE :plan";
             $params[':plan'] = '%' . $plan . '%';
         }
 
-        if (!empty($search)) {
+        if (!empty($search)) 
+        {
             $sql .= " AND (
             u.userDocument LIKE :search OR 
             CONCAT(u.userName, ' ', u.userLastname) LIKE :search
@@ -51,7 +54,7 @@ class UserModel extends Orm
         }
 
         $sql .= " LIMIT :offset, :limit";
-
+        
         $stmt = $this->database->prepare($sql);
 
         foreach ($params as $key => $value) {

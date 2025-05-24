@@ -15,19 +15,16 @@ class Orm
 
     public function getAll()
     {
-
         $sql = "SELECT * FROM $this->table";
 
         $stmt = $this->database->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
-
     }
 
     public function getById($id)
     {
-
         $sql = "SELECT * FROM $this->table WHERE $this->id = :id";
 
         $stmt = $this->database->prepare($sql);
@@ -35,12 +32,10 @@ class Orm
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
-
     }
 
     public function updateById($id, $data)
     {
-
         $sql = "UPDATE $this->table SET";
 
         foreach ($data as $key => $value) {
@@ -57,12 +52,10 @@ class Orm
 
         $stmt->bindValue(":id", $id);
         $stmt->execute();
-
     }
 
     public function deleteById($id)
     {
-
         $sql = "DELETE FROM $this->table WHERE $this->id = :id";
 
         $stmt = $this->database->prepare($sql);

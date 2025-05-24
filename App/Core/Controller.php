@@ -3,7 +3,8 @@ class Controller
 {
     protected function render($folder, $path, $parameters = [], $layout = '')
     {
-        if (!empty($parameters)) {
+        if (!empty($parameters)) 
+        {
             extract($parameters);
         }
 

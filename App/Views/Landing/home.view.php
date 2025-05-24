@@ -16,7 +16,8 @@ $servicios = require_once(__DIR__ . "/../../Data/services.php");
                 nuestros servicios de forma segura y rápida.
             </p>
             <a href="#">
-                <button class="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl">
+                <button
+                    class="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl">
                     <i class="fa-solid fa-plus"></i> Unirme ahora
                 </button>
             </a>

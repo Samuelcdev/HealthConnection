@@ -39,7 +39,7 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <div class="flex items-center gap-3">
             <a href="#"
-                class="flex items-center gap-2 border border-black bg-orange-500 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
+                class="flex items-center gap-2 border border-black bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2 rounded-md shadow transition-all">
                 <i class="fa-solid fa-user text-sm"></i> Mi perfil
             </a>
             <a href="<?= BASE_URL ?>/Login/logout"

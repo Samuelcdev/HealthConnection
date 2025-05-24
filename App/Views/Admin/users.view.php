@@ -2,9 +2,72 @@
   <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
     <div class="flex gap-5">
       <h2 class="text-3xl font-bold text-gray-800">Usuarios</h2>
-      <a href="#" class="btn btn-warning bg-orange-500 text-white btn-sm md:btn-md shadow-md">
-        + Crear Usuario
-      </a>
+      <button class="btn btn-warning bg-orange-500 text-white hover:bg-orange-600" onclick="my_modal_1.showModal()"><i
+          class="fa-solid fa-plus"></i>Crear usuario</button>
+      <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold mb-4">Registrar nuevo usuario</h3>
+          <form method="post" action="<?= BASE_URL ?>/Admin/createUser">
+            <div class="mb-4">
+              <label for="typeDocument" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-id-card mr-2"></i>Tipo de Documento
+              </label>
+              <select id="typeDocument" name="typeDocument"
+                class="select select-warning w-full border-orange-500 rounded-md focus:ring-2 focus:ring-orange-300 transition-all">
+                <option value="" selected disabled>Selecciona tipo de documento</option>
+                <option value="1">Cédula de Ciudadanía</option>
+                <option value="2">Cédula de Extranjería</option>
+                <option value="3">Tarjeta de Identidad</option>
+                <option value="4">Pasaporte</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label for="numberDocument" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-hashtag mr-2"></i>Número de Documento
+              </label>
+              <input id="numberDocument" name="numberDocument" type="text"
+                class="input input-warning w-full border-orange-500 rounded-md shadow-sm focus:ring-2 focus:ring-orange-300 transition-all"
+                placeholder="Número de Documento" />
+            </div>
+            <div class="mb-4">
+              <label for="email" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-envelope mr-2"></i>Correo Electrónico
+              </label>
+              <input id="email" name="email" type="email"
+                class="input input-warning w-full border-orange-500 rounded-md shadow-sm focus:ring-2 focus:ring-orange-300 transition-all"
+                placeholder="Correo electrónico" />
+            </div>
+            <div class="mb-4">
+              <label for="name" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-user mr-2"></i>Nombres
+              </label>
+              <input id="name" name="name" type="text"
+                class="input input-warning w-full border-orange-500 rounded-md shadow-sm focus:ring-2 focus:ring-orange-300 transition-all"
+                placeholder="Nombres" />
+            </div>
+            <div class="mb-4">
+              <label for="lastname" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-user-tag mr-2"></i>Apellidos
+              </label>
+              <input id="lastname" name="lastname" type="text"
+                class="input input-warning w-full border-orange-500 rounded-md shadow-sm focus:ring-2 focus:ring-orange-300 transition-all"
+                placeholder="Apellidos" />
+            </div>
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-medium text-orange-500 mb-1">
+                <i class="fas fa-lock mr-2"></i>Contraseña
+              </label>
+              <input id="password" name="password" type="password"
+                class="input input-warning w-full border-orange-500 rounded-md shadow-sm focus:ring-2 focus:ring-orange-300 transition-all"
+                placeholder="Contraseña" />
+            </div>
+            <button type="submit"
+              class="btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
+              <i class="fas fa-user-plus mr-2"></i>Registrarme
+            </button>
+          </form>
+        </div>
+      </dialog>
     </div>
     <form method="GET" class="flex flex-wrap items-center gap-3">
       <select name="status" class="select select-sm border-gray-300 rounded-md">
@@ -87,3 +150,30 @@
     </table>
   </div>
 </div>
+
+<?php
+session_start();
+?>
+<?php if (isset($_SESSION['error'])): ?>
+  <script>
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: '<?= $_SESSION['error'] ?>',
+      confirmButtonColor: '#f97316'
+    })
+  </script>
+  <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['success'])): ?>
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Exito',
+      text: '<?= $_SESSION['success'] ?>',
+      confirmButtonColor: '#f97316'
+    })
+  </script>
+  <?php unset($_SESSION['success']); ?>
+<?php endif; ?>

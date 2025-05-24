@@ -8,7 +8,7 @@
   <div class="w-1/3 max-w-md mx-auto flex items-center">
     <div class="bg-white shadow-2xl rounded-3xl p-8 w-full">
       <h2 class="text-3xl font-extrabold text-center text-orange-500 mb-8">Crear tu Cuenta</h2>
-      <form method="post" action="register">
+      <form method="post" action="<?= BASE_URL ?>/Register/register">
         <div class="mb-4">
           <label for="typeDocument" class="block text-sm font-medium text-orange-500 mb-1">
             <i class="fas fa-id-card mr-2"></i>Tipo de Documento
@@ -78,9 +78,7 @@
           class="btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
           <i class="fas fa-user-plus mr-2"></i>Registrarme
         </button>
-
       </form>
-
     </div>
   </div>
 </div>
