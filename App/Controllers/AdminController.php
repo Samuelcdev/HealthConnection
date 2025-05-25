@@ -84,4 +84,8 @@ class AdminController extends Controller
         $this->render('Admin', 'users', [], 'site');
         exit;
     }
+
+    public function editUser(){
+        
+    }
 }

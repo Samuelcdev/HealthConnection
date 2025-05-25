@@ -2,13 +2,13 @@
 
 class Orm
 {
-    protected $id;
+    protected $numberDocument;
     protected $table;
     protected $database;
 
-    public function __construct($id, $table, $database)
+    public function __construct($numberDocument, $table, $database)
     {
-        $this->id = $id;
+        $this->numberDocument = $numberDocument;
         $this->table = $table;
         $this->database = $database;
     }
@@ -23,18 +23,18 @@ class Orm
         return $result;
     }
 
-    public function getById($id)
+    public function getById($numberDocument)
     {
-        $sql = "SELECT * FROM $this->table WHERE $this->id = :id";
+        $sql = "SELECT * FROM $this->table WHERE $this->numberDocument = :numberDocument";
 
         $stmt = $this->database->prepare($sql);
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":numberDocument", $numberDocument);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function updateById($id, $data)
+    public function updateById($numberDocument, $data)
     {
         $sql = "UPDATE $this->table SET";
 
@@ -43,23 +43,23 @@ class Orm
         }
 
         $sql = trim($sql, ",");
-        $sql .= " WHERE $this->id = :id";
+        $sql .= " WHERE $this->numberDocument = :numberDocument";
         $stmt = $this->database->prepare($sql);
 
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
 
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":numberDocument", $numberDocument);
         $stmt->execute();
     }
 
-    public function deleteById($id)
+    public function deleteById($numberDocument)
     {
-        $sql = "DELETE FROM $this->table WHERE $this->id = :id";
+        $sql = "DELETE FROM $this->table WHERE $this->numberDocument = :numberDocument";
 
         $stmt = $this->database->prepare($sql);
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":numberDocument", $numberDocument);
         $stmt->execute();
     }
 
