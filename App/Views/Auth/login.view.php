@@ -78,24 +78,16 @@ $title = 'Iniciar Sesión';
     </div>
   </div>
 </div>
-
-<!-- Alertas SweetAlert2 -->
+<?php
+session_start();
+?>
 <?php if (isset($_SESSION['error'])): ?>
   <script>
     Swal.fire({
       icon: 'error',
-      title: '¡Algo salió mal!',
-      html: '<strong><?= $_SESSION['error'] ?></strong>',
-      customClass: {
-        popup: 'rounded-xl shadow-lg border border-red-200',
-        title: 'text-red-600 font-bold text-xl',
-        htmlContainer: 'text-gray-700 text-base',
-        confirmButton: 'bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg focus:outline-none'
-      },
-      buttonsStyling: false,
-      confirmButtonText: 'Entendido',
-      showClass: { popup: 'animate__animated animate__fadeInDown' },
-      hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+      title: 'Error',
+      text: '<?= $_SESSION['error'] ?>',
+      confirmButtonColor: '#f97316'
     });
   </script>
   <?php unset($_SESSION['error']); ?>
@@ -105,20 +97,11 @@ $title = 'Iniciar Sesión';
   <script>
     Swal.fire({
       icon: 'success',
-      title: '¡Operación exitosa!',
-      html: '<strong><?= $_SESSION['success'] ?></strong>',
-      customClass: {
-        popup: 'rounded-xl shadow-lg border border-green-200',
-        title: 'text-green-600 font-bold text-xl',
-        htmlContainer: 'text-gray-700 text-base',
-        confirmButton: 'bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg focus:outline-none'
-      },
-      buttonsStyling: false,
-      confirmButtonText: 'Perfecto',
-      showClass: { popup: 'animate__animated animate__fadeInDown' },
-      hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+      title: 'Éxito',
+      text: '<?= $_SESSION['success'] ?>',
+      confirmButtonColor: '#f97316'
     }).then(() => {
-      window.location.href = '<?= BASE_URL ?>';
+      window.location.href = "<?= BASE_URL ?>"
     });
   </script>
   <?php unset($_SESSION['success']); ?>

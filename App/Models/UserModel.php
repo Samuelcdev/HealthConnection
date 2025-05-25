@@ -19,7 +19,7 @@ class UserModel extends Orm
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getFilteredPaginatedUsers($page, $limit, $status = '', $plan = '', $search = '')
+    public function getUsers($page, $limit, $status = '', $plan = '', $search = '')
     {
         $offset = ($page - 1) * $limit;
 
@@ -32,20 +32,17 @@ class UserModel extends Orm
 
         $params = [];
 
-        if (!empty($status)) 
-        {
+        if (!empty($status)) {
             $sql .= " AND u.userStatus = :status";
             $params[':status'] = $status === 'activo' ? 'Active' : 'Inactive';
         }
 
-        if (!empty($plan)) 
-        {
+        if (!empty($plan)) {
             $sql .= " AND hp.healthPlanName LIKE :plan";
             $params[':plan'] = '%' . $plan . '%';
         }
 
-        if (!empty($search)) 
-        {
+        if (!empty($search)) {
             $sql .= " AND (
             u.userDocument LIKE :search OR 
             CONCAT(u.userName, ' ', u.userLastname) LIKE :search
@@ -54,7 +51,7 @@ class UserModel extends Orm
         }
 
         $sql .= " LIMIT :offset, :limit";
-        
+
         $stmt = $this->database->prepare($sql);
 
         foreach ($params as $key => $value) {
@@ -66,6 +63,44 @@ class UserModel extends Orm
 
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countFilteredUsers($status = '', $plan = '', $search = '')
+    {
+        $sql = "SELECT COUNT(*) as total
+            FROM user u
+            INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
+            INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
+            WHERE 1 = 1";
+
+        $params = [];
+
+        if (!empty($status)) {
+            $sql .= " AND u.userStatus = :status";
+            $params[':status'] = $status === 'activo' ? 'Active' : 'Inactive';
+        }
+
+        if (!empty($plan)) {
+            $sql .= " AND hp.healthPlanName LIKE :plan";
+            $params[':plan'] = '%' . $plan . '%';
+        }
+
+        if (!empty($search)) {
+            $sql .= " AND (
+            u.userDocument LIKE :search OR 
+            CONCAT(u.userName, ' ', u.userLastname) LIKE :search
+        )";
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 
 }

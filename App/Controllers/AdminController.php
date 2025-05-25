@@ -16,14 +16,18 @@ class AdminController extends Controller
         $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $limit = 10;
 
-        $users = $this->userModel->getFilteredPaginatedUsers($currentPage, $limit, $statusFilter, $planFilter, $search);
+        $totalUsers = $this->userModel->countFilteredUsers($statusFilter, $planFilter, $search);
+        $totalPages = ceil($totalUsers / $limit);
+
+        $users = $this->userModel->getUsers($currentPage, $limit, $statusFilter, $planFilter, $search);
 
         $this->render('Admin', 'users', [
             'users' => $users,
             'statusFilter' => $statusFilter,
             'planFilter' => $planFilter,
             'search' => $search,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ], 'site');
     }
 
@@ -31,12 +35,12 @@ class AdminController extends Controller
     {
         session_start();
 
-        $typeDocument = $_POST['typeDocument'] ?? null;
-        $numberDocument = $_POST['numberDocument'] ?? null;
-        $name = $_POST['name'] ?? null;
-        $email = $_POST['email'] ?? null;
-        $lastname = $_POST['lastname'] ?? null;
-        $password = $_POST['password'] ?? null;
+        $typeDocument = $_POST['create-typeDocument'] ?? null;
+        $numberDocument = $_POST['create-numberDocument'] ?? null;
+        $name = $_POST['create-name'] ?? null;
+        $email = $_POST['create-email'] ?? null;
+        $lastname = $_POST['create-lastname'] ?? null;
+        $password = $_POST['create-password'] ?? null;
 
         if (
             empty($typeDocument) ||
@@ -45,24 +49,27 @@ class AdminController extends Controller
             empty($email) ||
             empty($lastname) ||
             empty($password)
-            ) 
-        {
+        ) {
             $_SESSION['error'] = "Todos los campos son Obligatorios";
             header("Location: " . BASE_URL . "/Admin/users");
             exit;
         }
 
-        if (!ctype_digit($numberDocument)) 
-        {
+        if (!ctype_digit($numberDocument)) {
             $_SESSION['error'] = "El numero de documento debe contener unicamente numeros";
+            header("Location:" . BASE_URL . "/Admin/users");
+            exit;
+        }
+
+        if (strlen($numberDocument) > 10) {
+            $_SESSION['error'] = "El numero de documento no puede exceder los 10 digitos";
             header("Location:" . BASE_URL . "/Admin/users");
             exit;
         }
 
         $existingUser = $this->userModel->getById($numberDocument);
 
-        if ($existingUser) 
-        {
+        if ($existingUser) {
             $_SESSION['error'] = "El usuario ya existe. Por favor intente de nuevo";
             header("Location: " . BASE_URL . "/Admin/users");
             exit;
@@ -81,11 +88,38 @@ class AdminController extends Controller
         $this->userModel->insert($data);
 
         $_SESSION['success'] = "El usuario ha sido registrado correctamente";
-        $this->render('Admin', 'users', [], 'site');
+        header("Location: " . BASE_URL . "/Admin/users");
         exit;
     }
 
-    public function editUser(){
-        
+    public function editUser()
+    {
+        session_start();
+
+        $typeDocument = $_POST['typeDocument'] ?? null;
+        $numberDocument = $_POST['numberDocument'] ?? null;
+        $name = $_POST['name'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $lastname = $_POST['lastname'] ?? null;
+        $plan = $_POST['plan'] ?? null;
+
+        $data = [
+            'userDocumentType' => $typeDocument,
+            'userDocument' => $numberDocument,
+            'userEmail' => $email,
+            'userName' => $name,
+            'userLastname' => $lastname,
+            'userPlan' => $plan,
+        ];
+
+        try {
+            $this->userModel->updateById($numberDocument, $data);
+            $_SESSION['success'] = "Usuario actualizado correctamente.";
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Error al actualizar el usuario: " . $e->getMessage();
+        }
+
+        header("Location: " . BASE_URL . "/Admin/users");
+        exit;
     }
 }

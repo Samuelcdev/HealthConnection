@@ -1,5 +1,8 @@
 <?php
-  $title = 'Usuarios';
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+$title = 'Usuarios';
 ?>
 
 <div class="box-content max-w-[1200px] mx-auto mt-[50px] mb-[40px]">
@@ -10,7 +13,6 @@
         <i class="fa-solid fa-plus mr-2"></i>Crear usuario
       </button>
     </div>
-    <!-- Filtros -->
     <form method="GET" class="flex flex-col gap-2 w-full md:w-auto max-w-[500px]">
       <div class="flex flex-wrap gap-5">
         <select name="status" class="select select-sm border-gray-300 rounded-md w-[190px]">
@@ -37,7 +39,6 @@
       </div>
     </form>
   </div>
-  <!-- Tabla -->
   <div class="overflow-x-auto bg-white rounded-xl shadow-xl">
     <table class="min-w-full table-auto text-sm">
       <thead class="bg-orange-500 text-white text-left">
@@ -94,8 +95,39 @@
       </tbody>
     </table>
   </div>
+  <div class="flex justify-center mt-6">
+    <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+      <?php if ($currentPage > 1): ?>
+        <a href="?status=<?= $statusFilter ?>&plan=<?= $planFilter ?>&search=<?= $search ?>&page=<?= $currentPage - 1 ?>"
+          class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-l-md">
+          ← Anterior
+        </a>
+      <?php else: ?>
+        <span
+          class="px-4 py-2 border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400 rounded-l-md cursor-not-allowed">
+          ← Anterior
+        </span>
+      <?php endif; ?>
+      <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?status=<?= $statusFilter ?>&plan=<?= $planFilter ?>&search=<?= $search ?>&page=<?= $i ?>"
+          class="px-4 py-2 border border-gray-300 <?= ($i == $currentPage) ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50' ?> text-sm font-medium">
+          <?= $i ?>
+        </a>
+      <?php endfor; ?>
+      <?php if ($currentPage < $totalPages): ?>
+        <a href="?status=<?= $statusFilter ?>&plan=<?= $planFilter ?>&search=<?= $search ?>&page=<?= $currentPage + 1 ?>"
+          class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-r-md">
+          Siguiente →
+        </a>
+      <?php else: ?>
+        <span
+          class="px-4 py-2 border border-gray-300 bg-gray-100 text-sm font-medium text-gray-400 rounded-r-md cursor-not-allowed">
+          Siguiente →
+        </span>
+      <?php endif; ?>
+    </nav>
+  </div>
 </div>
-
 <dialog id="my_modal_1" class="modal">
   <div class="modal-box w-full max-w-3xl">
     <div class="flex justify-between items-center mb-6">
@@ -111,10 +143,10 @@
     <form method="post" action="<?= BASE_URL ?>/Admin/createUser" class="space-y-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label for="typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Tipo de Documento
           </label>
-          <select id="typeDocument" name="typeDocument"
+          <select id="create-typeDocument" name="create-typeDocument"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
             <option value="" selected disabled>Selecciona tipo de documento</option>
             <option value="1">Cédula de Ciudadanía</option>
@@ -124,42 +156,42 @@
           </select>
         </div>
         <div>
-          <label for="numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-hashtag mr-2 text-orange-500"></i>Número de Documento
           </label>
-          <input id="numberDocument" name="numberDocument" type="text"
+          <input id="create-numberDocument" name="create-numberDocument" type="text"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Número de Documento" />
         </div>
         <div>
-          <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-name" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-user mr-2 text-orange-500"></i>Nombres
           </label>
-          <input id="name" name="name" type="text"
+          <input id="create-name" name="create-name" type="text"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Nombres" />
         </div>
         <div>
-          <label for="lastname" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-lastname" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-user-tag mr-2 text-orange-500"></i>Apellidos
           </label>
-          <input id="lastname" name="lastname" type="text"
+          <input id="create-lastname" name="create-lastname" type="text"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Apellidos" />
         </div>
         <div>
-          <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-email" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Correo Electrónico
           </label>
-          <input id="email" name="email" type="email"
+          <input id="create-email" name="create-email" type="email"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Correo electrónico" />
         </div>
         <div>
-          <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="create-password" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-lock mr-2 text-orange-500"></i>Contraseña
           </label>
-          <input id="password" name="password" type="password"
+          <input id="create-password" name="create-password" type="password"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Contraseña" />
         </div>
@@ -173,30 +205,91 @@
     </form>
   </div>
 </dialog>
-<!-- Notificaciones con SweetAlert -->
-<?php
-session_start();
-?>
+<dialog id="my_modal_2" class="modal">
+  <div class="modal-box w-full max-w-3xl">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold text-orange-500">
+        <i class="fas fa-user-plus mr-2"></i>Editar Usuario
+      </h3>
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle text-gray-500 hover:text-orange-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </form>
+    </div>
+    <form method="post" action="<?= BASE_URL ?>/Admin/editUser" class="space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label for="typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-id-card mr-2 text-orange-500"></i>Tipo de Documento
+          </label>
+          <select id="typeDocument" name="typeDocument"
+            class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+            <option value="1" <?= $user['userDocumentType'] == 1 ? 'selected' : '' ?>>Cédula de Ciudadanía</option>
+            <option value="2" <?= $user['userDocumentType'] == 2 ? 'selected' : '' ?>>Cédula de Extranjería</option>
+            <option value="3" <?= $user['userDocumentType'] == 3 ? 'selected' : '' ?>>Tarjeta de Identidad</option>
+            <option value="4" <?= $user['userDocumentType'] == 4 ? 'selected' : '' ?>>Pasaporte</option>
+          </select>
+        </div>
+        <div>
+          <label for="numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-hashtag mr-2 text-orange-500"></i>Número de Documento
+          </label>
+          <input id="numberDocument" name="numberDocument" type="text" value="<?= $user['userDocument'] ?>" disabled
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Número de Documento" />
+        </div>
+        <div>
+          <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-user mr-2 text-orange-500"></i>Nombres
+          </label>
+          <input id="name" name="name" type="text" value="<?= $user['userName'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Nombres" />
+        </div>
+        <div>
+          <label for="lastname" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-user-tag mr-2 text-orange-500"></i>Apellidos
+          </label>
+          <input id="lastname" name="lastname" type="text" value="<?= $user['userLastname'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Apellidos" />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-envelope mr-2 text-orange-500"></i>Correo Electrónico
+          </label>
+          <input id="email" name="email" type="email" value="<?= $user['userEmail'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Correo electrónico" />
+        </div>
+        <div>
+          <label for="typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-id-card mr-2 text-orange-500"></i>Estado
+          </label>
+          <select id="plan" name="plan  "
+            class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+            <option value="1" <?= $user['userStatus'] == 'Active' ? 'selected' : '' ?>>Activo</option>
+            <option value="2" <?= $user['userStatus'] == 'Inactive' ? 'selected' : '' ?>>Inactivo</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button type="submit"
+          class="btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold transition duration-200 transform hover:scale-105">
+          <i class="fas fa-check-circle mr-2"></i>Editar usuario
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
 <?php if (isset($_SESSION['error'])): ?>
   <script>
     Swal.fire({
       icon: 'error',
-      title: '¡Algo salió mal!',
-      html: '<strong><?= $_SESSION['error'] ?></strong>',
-      customClass: {
-        popup: 'rounded-xl shadow-lg border border-red-200',
-        title: 'text-red-600 font-bold text-xl',
-        htmlContainer: 'text-gray-700 text-base',
-        confirmButton: 'bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg focus:outline-none'
-      },
-      buttonsStyling: false,
-      confirmButtonText: 'Entendido',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
+      title: 'Error',
+      text: '<?= $_SESSION['error'] ?>',
+      confirmButtonColor: '#f97316'
     });
   </script>
   <?php unset($_SESSION['error']); ?>
@@ -206,22 +299,11 @@ session_start();
   <script>
     Swal.fire({
       icon: 'success',
-      title: '¡Operación exitosa!',
-      html: '<strong><?= $_SESSION['success'] ?></strong>',
-      customClass: {
-        popup: 'rounded-xl shadow-lg border border-green-200',
-        title: 'text-green-600 font-bold text-xl',
-        htmlContainer: 'text-gray-700 text-base',
-        confirmButton: 'bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg focus:outline-none'
-      },
-      buttonsStyling: false,
-      confirmButtonText: 'Perfecto',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
+      title: 'Éxito',
+      text: '<?= $_SESSION['success'] ?>',
+      confirmButtonColor: '#f97316'
+    }).then(() => {
+      window.location.href = "<?= BASE_URL ?>/Admin/users";
     });
   </script>
   <?php unset($_SESSION['success']); ?>
