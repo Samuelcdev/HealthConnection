@@ -24,11 +24,12 @@ class UserModel extends Orm
         $offset = ($page - 1) * $limit;
 
         $sql = "SELECT u.*, dt.documentTypeName, hp.healthPlanName,
-                   CONCAT(u.userName, ' ', u.userLastname) AS fullName
-            FROM user u
-            INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
-            INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
-            WHERE 1 = 1";
+                    CONCAT(u.userName, ' ', u.userLastname) AS fullName, r.roleName
+                FROM user u
+                INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
+                INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
+                INNER JOIN role r ON u.userRoleId = r.roleId
+                WHERE 1 = 1";
 
         $params = [];
 
@@ -102,5 +103,4 @@ class UserModel extends Orm
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }
-
 }

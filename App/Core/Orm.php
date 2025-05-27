@@ -36,14 +36,14 @@ class Orm
 
     public function updateById($numberDocument, $data)
     {
-        $sql = "UPDATE $this->table SET";
+        $sql = "UPDATE $this->table SET ";
 
         foreach ($data as $key => $value) {
             $sql .= "$key = :$key, ";
         }
 
-        $sql = trim($sql, ",");
-        $sql .= " WHERE $this->numberDocument = :numberDocument";
+        $sql = rtrim($sql, ", ");
+        $sql .= " WHERE userDocument = :numberDocument";
         $stmt = $this->database->prepare($sql);
 
         foreach ($data as $key => $value) {

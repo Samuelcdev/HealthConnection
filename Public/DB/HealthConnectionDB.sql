@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `appointment` (
   `appointmentId` int(11) NOT NULL,
-  `appointmentUserDocument` int(11) NOT NULL,
+  `appointmentUserDocument` bigint(11) NOT NULL,
   `appointmentDoctorDocument` int(11) NOT NULL,
   `appointmentAppointmentType` int(11) NOT NULL,
   `appointmentDate` date NOT NULL,
@@ -203,7 +203,7 @@ INSERT INTO `healthplan` (`healthPlanId`, `healthPlanName`, `healthPlanDescripti
 CREATE TABLE `historial` (
   `historialId` int(11) NOT NULL,
   `historialDescription` varchar(255) DEFAULT NULL,
-  `historialUserDocument` int(11) NOT NULL
+  `historialUserDocument` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -257,7 +257,7 @@ INSERT INTO `role` (`roleId`, `roleName`, `roleDescription`) VALUES
 --
 
 CREATE TABLE `user` (
-  `userDocument` int(11) NOT NULL,
+  `userDocument` bigint(11) NOT NULL,
   `userName` varchar(100) NOT NULL,
   `userLastname` varchar(100) NOT NULL,
   `userPhone` varchar(20) NOT NULL,
@@ -289,7 +289,7 @@ INSERT INTO `user` (`userDocument`, `userName`, `userLastname`, `userPhone`, `us
 --
 
 CREATE TABLE `userhealthplan` (
-  `userDocument` int(11) NOT NULL,
+  `userDocument` bigint(11) NOT NULL,
   `healthPlanId` int(11) NOT NULL,
   `asignedAt` date DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL

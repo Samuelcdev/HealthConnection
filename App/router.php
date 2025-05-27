@@ -14,8 +14,7 @@ class Router
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 
-        if (strpos($requestUri, $scriptName) === 0) 
-        {
+        if (strpos($requestUri, $scriptName) === 0) {
             $requestUri = substr($requestUri, strlen($scriptName));
         }
 
@@ -27,8 +26,7 @@ class Router
 
         $controllerFile = __DIR__ . "/Controllers/{$this->controller}.php";
 
-        if (!file_exists($controllerFile)) 
-        {
+        if (!file_exists($controllerFile)) {
             die("❌ Error: No se encontró el controlador '{$this->controller}'");
         }
 
@@ -43,8 +41,7 @@ class Router
         $controller = new $this->controller($connection);
         $method = $this->method;
 
-        if (!method_exists($controller, $method)) 
-        {
+        if (!method_exists($controller, $method)) {
             die("Error: no se encontro el metodo '{$method}' en '{$this->controller}'");
         }
 

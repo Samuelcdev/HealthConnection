@@ -58,7 +58,7 @@ $title = 'Usuarios';
       </thead>
       <tbody class="divide-y divide-gray-100 text-gray-700 text-center">
         <?php foreach ($users as $user): ?>
-          <tr class="hover:bg-orange-50 transition">
+          <tr class="hover:bg-orange-50 transition items-center content-center justify-center">
             <td class="p-4"><?= htmlspecialchars($user['userDocument']) ?></td>
             <td class="p-4"><?= htmlspecialchars($user['fullName']) ?></td>
             <td class="p-4"><?= htmlspecialchars($user['userPhone']) ?></td>
@@ -81,8 +81,8 @@ $title = 'Usuarios';
             </td>
             <td class="p-4">
               <div class="flex justify-center items-center gap-3">
-                <button class="btn btn-sm text-blue-600 hover:text-blue-800" title="Editar"
-                  onclick="my_modal_2.showModal()">
+                <button class="btn btn-sm text-blue-600 hover:text-blue-800 btn-edit-user"
+                  data-user='<?= htmlspecialchars(json_encode($user)) ?>' title="Editar" onclick="my_modal_2.showModal()">
                   <i class="fa-solid fa-edit"></i>
                 </button>
                 <button class="btn btn-sm text-red-500 hover:text-red-700" title="Eliminar">
@@ -128,6 +128,7 @@ $title = 'Usuarios';
     </nav>
   </div>
 </div>
+
 <dialog id="my_modal_1" class="modal">
   <div class="modal-box w-full max-w-3xl">
     <div class="flex justify-between items-center mb-6">
@@ -205,6 +206,7 @@ $title = 'Usuarios';
     </form>
   </div>
 </dialog>
+
 <dialog id="my_modal_2" class="modal">
   <div class="modal-box w-full max-w-3xl">
     <div class="flex justify-between items-center mb-6">
@@ -235,7 +237,7 @@ $title = 'Usuarios';
           <label for="numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-hashtag mr-2 text-orange-500"></i>Número de Documento
           </label>
-          <input id="numberDocument" name="numberDocument" type="text" value="<?= $user['userDocument'] ?>" disabled
+          <input id="numberDocument" name="numberDocument" type="text" value="<?= $user['userDocument'] ?>" readonly
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Número de Documento" />
         </div>
@@ -264,13 +266,72 @@ $title = 'Usuarios';
             placeholder="Correo electrónico" />
         </div>
         <div>
-          <label for="typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="address" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-envelope mr-2 text-orange-500"></i>Direccion
+          </label>
+          <input id="address" name="address" type="text" value="<?= $user['userAddress'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Direccion" />
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-envelope mr-2 text-orange-500"></i>Telefono
+          </label>
+          <input id="phone" name="phone" type="text" value="<?= $user['userPhone'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Telefono" />
+        </div>
+        <div>
+          <label for="sex" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-envelope mr-2 text-orange-500"></i>Genero
+          </label>
+          <select id="sex" name="sex"
+            class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+            <option value="1" <?= $user['userSex'] == 'F' ? 'selected' : '' ?>>Femenino</option>
+            <option value="2" <?= $user['userSex'] == 'M' ? 'selected' : '' ?>>Masculino</option>
+            <option value="3" <?= $user['userSex'] == 'O' ? 'selected' : '' ?>>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label for="userStatus" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Estado
           </label>
-          <select id="plan" name="plan  "
+          <select id="userStatus" name="userStatus"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
             <option value="1" <?= $user['userStatus'] == 'Active' ? 'selected' : '' ?>>Activo</option>
             <option value="2" <?= $user['userStatus'] == 'Inactive' ? 'selected' : '' ?>>Inactivo</option>
+          </select>
+        </div>
+        <div>
+          <label for="rol" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-id-card mr-2 text-orange-500"></i>Rol
+          </label>
+          <select id="rol" name="rol"
+            class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+            <option value="1" <?= $user['roleName'] == 'Patient' ? 'selected' : '' ?>>Paciente</option>
+            <option value="2" <?= $user['roleName'] == 'Doctor' ? 'selected' : '' ?>>Doctor</option>
+            <option value="3" <?= $user['roleName'] == 'Admin' ? 'selected' : '' ?>>Administrador</option>
+          </select>
+        </div>
+        <div>
+          <label for="birthdate" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-id-card mr-2 text-orange-500"></i>Fecha de Nacimiento
+          </label>
+          <input id="birthdate" name="birthdate" type="date" value="<?= $user['userBirthdate'] ?>"
+            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+            placeholder="Fecha de Nacimiento" />
+        </div>
+        <div>
+          <label for="plan" class="block text-sm font-semibold text-gray-700 mb-1">
+            <i class="fas fa-id-card mr-2 text-orange-500"></i>Plan Adquirido
+          </label>
+          <select id="plan" name="plan"
+            class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+            <option value="1" <?= $user['healthPlanName'] == 'Plan Gratuito' ? 'selected' : '' ?>>Plan Gratuito</option>
+            <option value="2" <?= $user['healthPlanName'] == 'Plan Personal' ? 'selected' : '' ?>>Plan Personal</option>
+            <option value="3" <?= $user['healthPlanName'] == 'Plan Personal Plus' ? 'selected' : '' ?>>Plan personal plus</option>
+            <option value="4" <?= $user['healthPlanName'] == 'Plan Familiar' ? 'selected' : '' ?>>Plan Familiar</option>
+            <option value="5" <?= $user['healthPlanName'] == 'Plan Familiar Plus' ? 'selected' : '' ?>>Plan Familiar Plus</option>
           </select>
         </div>
       </div>
@@ -283,6 +344,7 @@ $title = 'Usuarios';
     </form>
   </div>
 </dialog>
+
 <?php if (isset($_SESSION['error'])): ?>
   <script>
     Swal.fire({

@@ -8,6 +8,7 @@
     <title><?= $title ?> | Health Connection</title>
     <script src="https://kit.fontawesome.com/c88d790515.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?= BASE_URL ?>/Js/editUserModal.js"></script>
 </head>
 
 <body class="bg-orange-50">

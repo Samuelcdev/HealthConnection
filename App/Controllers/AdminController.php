@@ -85,9 +85,12 @@ class AdminController extends Controller
             'userPassword' => password_hash($password, PASSWORD_BCRYPT)
         ];
 
-        $this->userModel->insert($data);
-
-        $_SESSION['success'] = "El usuario ha sido registrado correctamente";
+        try {
+            $this->userModel->insert($data);
+            $_SESSION['success'] = "El usuario ha sido registrado correctamente";
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Error al registrar el usuario" . $e->getMessage();
+        }
         header("Location: " . BASE_URL . "/Admin/users");
         exit;
     }
@@ -99,8 +102,14 @@ class AdminController extends Controller
         $typeDocument = $_POST['typeDocument'] ?? null;
         $numberDocument = $_POST['numberDocument'] ?? null;
         $name = $_POST['name'] ?? null;
-        $email = $_POST['email'] ?? null;
         $lastname = $_POST['lastname'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $address = $_POST['address'] ?? null;
+        $phone = $_POST['phone'] ?? null;
+        $gender =  $_POST['sex'] ?? null;
+        $status = $_POST['userStatus'] ?? null;
+        $role = $_POST['rol'] ?? null;
+        $birthdate = $_POST['birthdate'] ?? null;
         $plan = $_POST['plan'] ?? null;
 
         $data = [
@@ -109,7 +118,13 @@ class AdminController extends Controller
             'userEmail' => $email,
             'userName' => $name,
             'userLastname' => $lastname,
-            'userPlan' => $plan,
+            'userAddress' => $address,
+            'userPhone' => $phone,
+            'userSex' => $gender,
+            'userStatus' => $status,
+            'userRoleId' => $role,
+            'userBirthdate' => $birthdate,
+            'userPlan' => $plan
         ];
 
         try {
@@ -118,7 +133,6 @@ class AdminController extends Controller
         } catch (Exception $e) {
             $_SESSION['error'] = "Error al actualizar el usuario: " . $e->getMessage();
         }
-
         header("Location: " . BASE_URL . "/Admin/users");
         exit;
     }
