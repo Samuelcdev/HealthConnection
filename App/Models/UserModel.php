@@ -45,9 +45,10 @@ class UserModel extends Orm
 
         if (!empty($search)) {
             $sql .= " AND (
-            u.userDocument LIKE :search OR 
-            CONCAT(u.userName, ' ', u.userLastname) LIKE :search
-        )";
+                    u.userDocument LIKE :search OR 
+                    CONCAT(u.userName, ' ', u.userLastname) LIKE :search
+                    )";
+            
             $params[':search'] = '%' . $search . '%';
         }
 
@@ -69,10 +70,10 @@ class UserModel extends Orm
     public function countFilteredUsers($status = '', $plan = '', $search = '')
     {
         $sql = "SELECT COUNT(*) as total
-            FROM user u
-            INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
-            INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
-            WHERE 1 = 1";
+                FROM user u
+                INNER JOIN documentType dt ON u.userDocumentType = dt.documentTypeId
+                INNER JOIN healthPlan hp ON u.userPlan = hp.healthPlanId
+                WHERE 1 = 1";
 
         $params = [];
 

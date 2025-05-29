@@ -15,8 +15,6 @@ class LoginController extends Controller
 
     public function login()
     {
-        session_start();
-
         $typeDocument = $_POST['typeDocument'];
         $numberDocument = $_POST['numberDocument'];
         $password = $_POST['password'];

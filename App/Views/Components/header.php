@@ -36,7 +36,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                     <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
                         <li><a class="text-gray-700 hover:text-orange-500" href="<?= BASE_URL ?>/Admin/users">Usuarios</a></li>
-                        <li><a class="text-gray-700 hover:text-orange-500" href="#">Citas</a></li>
+                        <li><a class="text-gray-700 hover:text-orange-500" href="<?= BASE_URL ?>/Appointment/appointments">Citas</a></li>
                         <li><a class="text-gray-700 hover:text-orange-500" href="#">Doctores</a></li>
                     <?php elseif ($_SESSION['user']['role'] === 'Patient'): ?>
                         <li>

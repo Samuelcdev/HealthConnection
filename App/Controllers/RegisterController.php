@@ -14,8 +14,6 @@ class RegisterController extends Controller
     }
     public function register()
     {
-        session_start();
-
         $typeDocument = $_POST['typeDocument'] ?? null;
         $numberDocument = $_POST['numberDocument'] ?? null;
         $name = $_POST['name'] ?? null;

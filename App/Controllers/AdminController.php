@@ -33,8 +33,6 @@ class AdminController extends Controller
 
     public function createUser()
     {
-        session_start();
-
         $typeDocument = $_POST['create-typeDocument'] ?? null;
         $numberDocument = $_POST['create-numberDocument'] ?? null;
         $name = $_POST['create-name'] ?? null;
@@ -97,8 +95,6 @@ class AdminController extends Controller
 
     public function editUser()
     {
-        session_start();
-
         $typeDocument = $_POST['typeDocument'] ?? null;
         $numberDocument = $_POST['numberDocument'] ?? null;
         $name = $_POST['name'] ?? null;
@@ -106,7 +102,7 @@ class AdminController extends Controller
         $email = $_POST['email'] ?? null;
         $address = $_POST['address'] ?? null;
         $phone = $_POST['phone'] ?? null;
-        $gender =  $_POST['sex'] ?? null;
+        $gender = $_POST['sex'] ?? null;
         $status = $_POST['userStatus'] ?? null;
         $role = $_POST['rol'] ?? null;
         $birthdate = $_POST['birthdate'] ?? null;
