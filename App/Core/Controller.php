@@ -3,8 +3,7 @@ class Controller
 {
     protected function render($folder, $path, $parameters = [], $layout = '')
     {
-        if (!empty($parameters)) 
-        {
+        if (!empty($parameters)) {
             extract($parameters);
         }
 
@@ -13,5 +12,10 @@ class Controller
         $content = ob_get_clean();
 
         require_once(__DIR__ . '/../Views/layouts/' . $layout . '.layout.php');
+    }
+
+    protected function sanitize($value)
+    {
+        return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
     }
 }

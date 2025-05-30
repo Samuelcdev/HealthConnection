@@ -5,6 +5,12 @@ class AppointmentController extends Controller
     private $appointmentModel;
     public function __construct(PDO $connection)
     {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'Admin') {
+            $_SESSION['error'] = "Acceso denegado. Debes iniciar sesion como administrador";
+            header("Location: " . BASE_URL . "/Login/showLogin");
+            exit;
+        }
+        
         $this->appointmentModel = new AppointmentModel($connection);
     }
 

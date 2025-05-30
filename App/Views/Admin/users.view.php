@@ -57,41 +57,52 @@ $title = 'Usuarios';
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 text-gray-700 text-center">
-        <?php foreach ($users as $user): ?>
-          <tr class="hover:bg-orange-50 transition items-center content-center justify-center">
-            <td class="p-4"><?= htmlspecialchars($user['userDocument']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['fullName']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['userPhone']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['userAddress']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['userEmail']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['userBirthdate']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['userSex']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['documentTypeName']) ?></td>
-            <td class="p-4"><?= htmlspecialchars($user['healthPlanName'] ?? 'N/A') ?></td>
-            <td class="p-4">
-              <?php if ($user['userStatus'] === 'Active'): ?>
-                <span class="inline-flex items-center gap-1 text-green-600 font-medium">
-                  <i class="fas fa-circle text-xs"></i> Activo
-                </span>
-              <?php else: ?>
-                <span class="inline-flex items-center gap-1 text-red-500 font-medium">
-                  <i class="fas fa-circle text-xs"></i> Inactivo
-                </span>
-              <?php endif; ?>
-            </td>
-            <td class="p-4">
-              <div class="flex justify-center items-center gap-3">
-                <button class="btn btn-sm text-blue-600 hover:text-blue-800 btn-edit-user"
-                  data-user='<?= htmlspecialchars(json_encode($user)) ?>' title="Editar" onclick="my_modal_2.showModal()">
-                  <i class="fa-solid fa-edit"></i>
-                </button>
-                <button class="btn btn-sm text-red-500 hover:text-red-700" title="Eliminar">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </td>
+        <?php if (empty($users)): ?>
+          <tr>
+            <td colspan="11" class="text-2xl p-4 text-center text-gray-800">No se encontraron usuarios.</td>
           </tr>
-        <?php endforeach; ?>
+        <?php else: ?>
+          <?php foreach ($users as $user): ?>
+            <tr class="hover:bg-orange-50 transition items-center content-center justify-center">
+              <td class="p-4"><?= htmlspecialchars($user['userDocument']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['fullName']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['userPhone']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['userAddress']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['userEmail']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['userBirthdate']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['userSex']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['documentTypeName']) ?></td>
+              <td class="p-4"><?= htmlspecialchars($user['healthPlanName'] ?? 'N/A') ?></td>
+              <td class="p-4">
+                <?php if ($user['userStatus'] === 'Active'): ?>
+                  <span class="inline-flex items-center gap-1 text-green-600 font-medium">
+                    <i class="fas fa-circle text-xs"></i> Activo
+                  </span>
+                <?php else: ?>
+                  <span class="inline-flex items-center gap-1 text-red-500 font-medium">
+                    <i class="fas fa-circle text-xs"></i> Inactivo
+                  </span>
+                <?php endif; ?>
+              </td>
+              <td class="p-4">
+                <div class="flex justify-center items-center gap-3">
+                  <button class="btn btn-sm text-blue-600 hover:text-blue-800 btn-edit-user"
+                    data-user='<?= htmlspecialchars(json_encode($user)) ?>' title="Editar" onclick="my_modal_2.showModal()">
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                  <form id="deleteForm-<?= $user['userDocument'] ?>" action="<?= BASE_URL ?>/Admin/deleteUser"
+                    method="post">
+                    <input type="hidden" name="numberDocument" value="<?= $user['userDocument'] ?>">
+                    <button type="button" class="btn btn-sm text-red-500 hover:text-red-700" title="Eliminar"
+                      onclick="confirmDelete('<?= $user['userDocument'] ?>')">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </tbody>
     </table>
   </div>
@@ -222,91 +233,94 @@ $title = 'Usuarios';
     <form method="post" action="<?= BASE_URL ?>/Admin/editUser" class="space-y-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label for="typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Tipo de Documento
           </label>
-          <select id="typeDocument" name="typeDocument"
+          <select id="edit-typeDocument" name="edit-typeDocument"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
-            <option value="1" <?= $user['userDocumentType'] == 1 ? 'selected' : '' ?>>Cédula de Ciudadanía</option>
-            <option value="2" <?= $user['userDocumentType'] == 2 ? 'selected' : '' ?>>Cédula de Extranjería</option>
-            <option value="3" <?= $user['userDocumentType'] == 3 ? 'selected' : '' ?>>Tarjeta de Identidad</option>
-            <option value="4" <?= $user['userDocumentType'] == 4 ? 'selected' : '' ?>>Pasaporte</option>
+            <?php $dotType = $user['userDocumentType'] ?? ''; ?>
+            <option value="1" <?= $dotType == 1 ? 'selected' : '' ?>>Cédula de Ciudadanía</option>
+            <option value="2" <?= $dotType == 1 ? 'selected' : '' ?>>Cédula de Extranjería</option>
+            <option value="3" <?= $dotType == 1 ? 'selected' : '' ?>>Tarjeta de Identidad</option>
+            <option value="4" <?= $dotType == 1 ? 'selected' : '' ?>>Pasaporte</option>
           </select>
         </div>
         <div>
-          <label for="numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-hashtag mr-2 text-orange-500"></i>Número de Documento
           </label>
-          <input id="numberDocument" name="numberDocument" type="text" value="<?= $user['userDocument'] ?>" readonly
-            class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+          <input id="edit-numberDocument" name="edit-numberDocument" type="text" value="<?= $user['userDocument'] ?>"
+            readonly class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Número de Documento" />
         </div>
         <div>
-          <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-name" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-user mr-2 text-orange-500"></i>Nombres
           </label>
-          <input id="name" name="name" type="text" value="<?= $user['userName'] ?>"
+          <input id="edit-name" name="edit-name" type="text" value="<?= $user['userName'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Nombres" />
         </div>
         <div>
-          <label for="lastname" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-lastname" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-user-tag mr-2 text-orange-500"></i>Apellidos
           </label>
-          <input id="lastname" name="lastname" type="text" value="<?= $user['userLastname'] ?>"
+          <input id="edit-lastname" name="edit-lastname" type="text" value="<?= $user['userLastname'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Apellidos" />
         </div>
         <div>
-          <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-email" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Correo Electrónico
           </label>
-          <input id="email" name="email" type="email" value="<?= $user['userEmail'] ?>"
+          <input id="edit-email" name="edit-email" type="email" value="<?= $user['userEmail'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Correo electrónico" />
         </div>
         <div>
-          <label for="address" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-address" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Direccion
           </label>
-          <input id="address" name="address" type="text" value="<?= $user['userAddress'] ?>"
+          <input id="edit-address" name="edit-address" type="text" value="<?= $user['userAddress'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Direccion" />
         </div>
         <div>
-          <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-phone" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Telefono
           </label>
-          <input id="phone" name="phone" type="text" value="<?= $user['userPhone'] ?>"
+          <input id="edit-phone" name="edit-phone" type="text" value="<?= $user['userPhone'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Telefono" />
         </div>
         <div>
-          <label for="sex" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-gender" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Genero
           </label>
-          <select id="sex" name="sex"
+          <select id="edit-gender" name="edit-gender"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
-            <option value="1" <?= $user['userSex'] == 'F' ? 'selected' : '' ?>>Femenino</option>
-            <option value="2" <?= $user['userSex'] == 'M' ? 'selected' : '' ?>>Masculino</option>
-            <option value="3" <?= $user['userSex'] == 'O' ? 'selected' : '' ?>>Otro</option>
+            <?php $gender = $user['userSex'] ?? '' ?>
+            <option value="1" <?= $gender == 'F' ? 'selected' : '' ?>>Femenino</option>
+            <option value="2" <?= $gender == 'M' ? 'selected' : '' ?>>Masculino</option>
+            <option value="3" <?= $gender == 'O' ? 'selected' : '' ?>>Otro</option>
           </select>
         </div>
         <div>
-          <label for="userStatus" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-userStatus" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Estado
           </label>
-          <select id="userStatus" name="userStatus"
+          <select id="edit-userStatus" name="edit-userStatus"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
-            <option value="1" <?= $user['userStatus'] == 'Active' ? 'selected' : '' ?>>Activo</option>
-            <option value="2" <?= $user['userStatus'] == 'Inactive' ? 'selected' : '' ?>>Inactivo</option>
+            <?php $status = $user['userStatus'] ?? '' ?>
+            <option value="1" <?= $status == 'Active' ? 'selected' : '' ?>>Activo</option>
+            <option value="2" <?= $status == 'Inactive' ? 'selected' : '' ?>>Inactivo</option>
           </select>
         </div>
         <div>
-          <label for="rol" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-rol" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Rol
           </label>
-          <select id="rol" name="rol"
+          <select id="edit-rol" name="edit-rol"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
             <option value="1" <?= $user['roleName'] == 'Patient' ? 'selected' : '' ?>>Paciente</option>
             <option value="2" <?= $user['roleName'] == 'Doctor' ? 'selected' : '' ?>>Doctor</option>
@@ -314,24 +328,26 @@ $title = 'Usuarios';
           </select>
         </div>
         <div>
-          <label for="birthdate" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-birthdate" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Fecha de Nacimiento
           </label>
-          <input id="birthdate" name="birthdate" type="date" value="<?= $user['userBirthdate'] ?>"
+          <input id="edit-birthdate" name="edit-birthdate" type="date" value="<?= $user['userBirthdate'] ?>"
             class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
             placeholder="Fecha de Nacimiento" />
         </div>
         <div>
-          <label for="plan" class="block text-sm font-semibold text-gray-700 mb-1">
+          <label for="edit-plan" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-id-card mr-2 text-orange-500"></i>Plan Adquirido
           </label>
-          <select id="plan" name="plan"
+          <select id="edit-plan" name="edit-plan"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
             <option value="1" <?= $user['healthPlanName'] == 'Plan Gratuito' ? 'selected' : '' ?>>Plan Gratuito</option>
             <option value="2" <?= $user['healthPlanName'] == 'Plan Personal' ? 'selected' : '' ?>>Plan Personal</option>
-            <option value="3" <?= $user['healthPlanName'] == 'Plan Personal Plus' ? 'selected' : '' ?>>Plan personal plus</option>
+            <option value="3" <?= $user['healthPlanName'] == 'Plan Personal Plus' ? 'selected' : '' ?>>Plan personal plus
+            </option>
             <option value="4" <?= $user['healthPlanName'] == 'Plan Familiar' ? 'selected' : '' ?>>Plan Familiar</option>
-            <option value="5" <?= $user['healthPlanName'] == 'Plan Familiar Plus' ? 'selected' : '' ?>>Plan Familiar Plus</option>
+            <option value="5" <?= $user['healthPlanName'] == 'Plan Familiar Plus' ? 'selected' : '' ?>>Plan Familiar Plus
+            </option>
           </select>
         </div>
       </div>
@@ -370,3 +386,22 @@ $title = 'Usuarios';
   </script>
   <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
+
+<script>
+  function confirmDelete(userDocument) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: 'Esta accion no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('deleteForm-' + userDocument).submit();
+      }
+    });
+  }
+</script>

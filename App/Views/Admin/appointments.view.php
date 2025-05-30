@@ -136,3 +136,81 @@ if (session_status() === PHP_SESSION_NONE) {
         </nav>
     </div>
 </div>
+
+<dialog id="my_modal_1" class="modal">
+    <div class="modal-box w-full max-w-3xl">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-orange-500">
+                <i class="fas fa-user-plus mr-2"></i>Registrar nuevo usuario
+            </h3>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle text-gray-500 hover:text-orange-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </form>
+        </div>
+        <form method="post" action="<?= BASE_URL ?>/Admin/createUser" class="space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label for="create-typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-id-card mr-2 text-orange-500"></i>Tipo de Documento
+                    </label>
+                    <select id="create-typeDocument" name="create-typeDocument"
+                        class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+                        <option value="" selected disabled>Selecciona tipo de documento</option>
+                        <option value="1">Cédula de Ciudadanía</option>
+                        <option value="2">Cédula de Extranjería</option>
+                        <option value="3">Tarjeta de Identidad</option>
+                        <option value="4">Pasaporte</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="create-numberDocument" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-hashtag mr-2 text-orange-500"></i>Número de Documento
+                    </label>
+                    <input id="create-numberDocument" name="create-numberDocument" type="text"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+                        placeholder="Número de Documento" />
+                </div>
+                <div>
+                    <label for="create-name" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-user mr-2 text-orange-500"></i>Nombres
+                    </label>
+                    <input id="create-name" name="create-name" type="text"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+                        placeholder="Nombres" />
+                </div>
+                <div>
+                    <label for="create-lastname" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-user-tag mr-2 text-orange-500"></i>Apellidos
+                    </label>
+                    <input id="create-lastname" name="create-lastname" type="text"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+                        placeholder="Apellidos" />
+                </div>
+                <div>
+                    <label for="create-email" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-envelope mr-2 text-orange-500"></i>Correo Electrónico
+                    </label>
+                    <input id="create-email" name="create-email" type="email"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+                        placeholder="Correo electrónico" />
+                </div>
+                <div>
+                    <label for="create-password" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-lock mr-2 text-orange-500"></i>Contraseña
+                    </label>
+                    <input id="create-password" name="create-password" type="password"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
+                        placeholder="Contraseña" />
+                </div>
+            </div>
+            <div>
+                <button type="submit"
+                    class="btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold transition duration-200 transform hover:scale-105">
+                    <i class="fas fa-check-circle mr-2"></i>Crear usuario
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>

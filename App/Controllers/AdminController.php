@@ -5,6 +5,12 @@ class AdminController extends Controller
     private $userModel;
     public function __construct(PDO $connection)
     {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'Admin') {
+            $_SESSION['error'] = "Acceso denegado. Debes iniciar sesion como administrador";
+            header("Location: " . BASE_URL . "/Login/showLogin");
+            exit;
+        }
+
         $this->userModel = new UserModel($connection);
     }
 
@@ -33,11 +39,11 @@ class AdminController extends Controller
 
     public function createUser()
     {
-        $typeDocument = $_POST['create-typeDocument'] ?? null;
-        $numberDocument = $_POST['create-numberDocument'] ?? null;
-        $name = $_POST['create-name'] ?? null;
-        $email = $_POST['create-email'] ?? null;
-        $lastname = $_POST['create-lastname'] ?? null;
+        $typeDocument = $this->sanitize($_POST['create-typeDocument'] ?? null);
+        $numberDocument = $this->sanitize($_POST['create-numberDocument'] ?? null);
+        $name = $this->sanitize($_POST['create-name'] ?? null);
+        $email = $this->sanitize($_POST['create-email'] ?? null);
+        $lastname = $this->sanitize($_POST['create-lastname'] ?? null);
         $password = $_POST['create-password'] ?? null;
 
         if (
@@ -95,18 +101,18 @@ class AdminController extends Controller
 
     public function editUser()
     {
-        $typeDocument = $_POST['typeDocument'] ?? null;
-        $numberDocument = $_POST['numberDocument'] ?? null;
-        $name = $_POST['name'] ?? null;
-        $lastname = $_POST['lastname'] ?? null;
-        $email = $_POST['email'] ?? null;
-        $address = $_POST['address'] ?? null;
-        $phone = $_POST['phone'] ?? null;
-        $gender = $_POST['sex'] ?? null;
-        $status = $_POST['userStatus'] ?? null;
-        $role = $_POST['rol'] ?? null;
-        $birthdate = $_POST['birthdate'] ?? null;
-        $plan = $_POST['plan'] ?? null;
+        $typeDocument = $this->sanitize($_POST['edit-typeDocument'] ?? null);
+        $numberDocument = $this->sanitize($_POST['edit-numberDocument'] ?? null);
+        $name = $this->sanitize($_POST['edit-name'] ?? null);
+        $lastname = $this->sanitize($_POST['edit-lastname'] ?? null);
+        $email = $this->sanitize($_POST['edit-email'] ?? null);
+        $address = $this->sanitize($_POST['edit-address'] ?? null);
+        $phone = $this->sanitize($_POST['edit-phone'] ?? null);
+        $gender = $this->sanitize($_POST['edit-gender'] ?? null);
+        $status = $this->sanitize($_POST['edit-userStatus'] ?? null);
+        $role = $this->sanitize($_POST['edit-rol'] ?? null);
+        $birthdate = $this->sanitize($_POST['edit-birthdate'] ?? null);
+        $plan = $this->sanitize($_POST['edit-plan'] ?? null);
 
         $data = [
             'userDocumentType' => $typeDocument,
@@ -128,6 +134,20 @@ class AdminController extends Controller
             $_SESSION['success'] = "Usuario actualizado correctamente.";
         } catch (Exception $e) {
             $_SESSION['error'] = "Error al actualizar el usuario: " . $e->getMessage();
+        }
+        header("Location: " . BASE_URL . "/Admin/users");
+        exit;
+    }
+
+    public function deleteUser()
+    {
+        $numberDocument = $this->sanitize($_POST['numberDocument'] ?? null);
+
+        try {
+            $this->userModel->deleteById($numberDocument);
+            $_SESSION['success'] = "Usuario eliminado correctamente.";
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Error al eliminar el usuario: " . $e->getMessage();
         }
         header("Location: " . BASE_URL . "/Admin/users");
         exit;
