@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-<div class="box-content max-w-[1200px] mx-auto mt-[50px] mb-[40px]">
+<div class="box-content min-w-[1200px] w-full mx-auto mt-[50px] mb-[40px]">
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
         <div class="flex flex-wrap gap-5 items-center">
             <h2 class="text-3xl font-bold text-gray-800">Citas Medicas</h2>
@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <option value="activo" <?= $statusFilter === 'activo' ? 'selected' : '' ?>>Activo</option>
                     <option value="inactivo" <?= $statusFilter === 'inactivo' ? 'selected' : '' ?>>Inactivo</option>
                 </select>
-                <input type="text" name="dateAppointment" placeholder="dateAppointment"
+                <input type="date" name="dateAppointment" placeholder="Fecha"
                     value="<?= htmlspecialchars($dateFilter) ?>"
                     class="input input-sm border-gray-300 rounded-md w-[190px]" />
             </div>

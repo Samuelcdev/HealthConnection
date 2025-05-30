@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     : 5;
             document.getElementById("edit-address").value = user.userAddress;
             document.getElementById("edit-phone").value = user.userPhone;
-            document.getElementById("edit-gender").value =
-                user.userSex === "F" ? 1 : user.userSex === "M" ? 2 : 3;
+            document.getElementById("edit-gender").value = user.userSex;
 
             const modal = document.getElementById("my_modal_2");
             if (modal) modal.showModal();

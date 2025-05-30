@@ -245,9 +245,9 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`roleId`, `roleName`, `roleDescription`) VALUES
-(1, 'Admin', 'Administrador del sistema con permisos totales'),
+(1, 'Patient', 'Usuario que accede como paciente'),
 (2, 'Doctor', 'Profesional de salud que atiende a los pacientes'),
-(3, 'Patient', 'Usuario que accede como paciente'),
+(3, 'Admin', 'Administrador del sistema con permisos totales'),
 (4, 'Secretary', 'Personal encargado de agendamiento y atención administrativa');
 
 -- --------------------------------------------------------
@@ -269,7 +269,7 @@ CREATE TABLE `user` (
   `userSex` enum('M','F','O') DEFAULT NULL,
   `userDocumentType` int(11) NOT NULL,
   `userPlan` int(11) NOT NULL,
-  `userRoleId` int(11) DEFAULT 3,
+  `userRoleId` int(11) DEFAULT 1,
   `userStatus` enum('Active','Inactive') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

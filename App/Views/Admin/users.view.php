@@ -240,9 +240,9 @@ $title = 'Usuarios';
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
             <?php $dotType = $user['userDocumentType'] ?? ''; ?>
             <option value="1" <?= $dotType == 1 ? 'selected' : '' ?>>Cédula de Ciudadanía</option>
-            <option value="2" <?= $dotType == 1 ? 'selected' : '' ?>>Cédula de Extranjería</option>
-            <option value="3" <?= $dotType == 1 ? 'selected' : '' ?>>Tarjeta de Identidad</option>
-            <option value="4" <?= $dotType == 1 ? 'selected' : '' ?>>Pasaporte</option>
+            <option value="2" <?= $dotType == 2 ? 'selected' : '' ?>>Cédula de Extranjería</option>
+            <option value="3" <?= $dotType == 3 ? 'selected' : '' ?>>Tarjeta de Identidad</option>
+            <option value="4" <?= $dotType == 4 ? 'selected' : '' ?>>Pasaporte</option>
           </select>
         </div>
         <div>
@@ -297,12 +297,12 @@ $title = 'Usuarios';
           <label for="edit-gender" class="block text-sm font-semibold text-gray-700 mb-1">
             <i class="fas fa-envelope mr-2 text-orange-500"></i>Genero
           </label>
-          <select id="edit-gender" name="edit-gender"
+          <select name="edit-gender" id="edit-gender"
             class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
-            <?php $gender = $user['userSex'] ?? '' ?>
-            <option value="1" <?= $gender == 'F' ? 'selected' : '' ?>>Femenino</option>
-            <option value="2" <?= $gender == 'M' ? 'selected' : '' ?>>Masculino</option>
-            <option value="3" <?= $gender == 'O' ? 'selected' : '' ?>>Otro</option>
+            <?php $gender = $user['userSex'] ?? ''; ?>
+            <option value="F" <?= $gender == 'F' ?? '' ?>>Femenino</option>
+            <option value="M" <?= $gender == 'M' ?? '' ?>>Masculino</option>
+            <option value="O" <?= $gender == 'O' ?? '' ?>>Otro</option>
           </select>
         </div>
         <div>

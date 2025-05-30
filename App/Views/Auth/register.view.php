@@ -107,6 +107,8 @@ session_start();
       title: 'Éxito',
       text: '<?= $_SESSION['success'] ?>',
       confirmButtonColor: '#f97316'
+    }).then(() => {
+      window.location.href = "<?= BASE_URL ?>/Login/showLogin"
     });
   </script>
   <?php unset($_SESSION['success']); ?>

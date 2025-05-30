@@ -11,13 +11,13 @@
     <script src="<?= BASE_URL ?>/Js/editUserModal.js"></script>
 </head>
 
-<body class="bg-orange-50">
+<body class="min-h-screen flex flex-col bg-orange-50">
     <?php
     require_once(__DIR__ . "/../Components/header.php");
     ?>
-    <?=
-        $content;
-    ?>
+    <main class="flex-1 container mx-auto px-4 py-6">
+        <?= $content; ?>
+    </main>
     <?php
     require_once(__DIR__ . "/../Components/footer.php");
     ?>

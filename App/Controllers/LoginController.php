@@ -45,6 +45,12 @@ class LoginController extends Controller
             exit;
         }
 
+        if ($user['userStatus'] != 'Active') {
+            $_SESSION['error'] = "El usuario esta inactivo por favor contacte el soporte";
+            header("Location:" . BASE_URL . "/Login/showLogin");
+            exit;
+        }
+
         if (!password_verify($password, $user['userPassword'])) {
             $_SESSION['error'] = "La contraseña no coincide. Vuelva a intentarlo";
             header("Location:" . BASE_URL . "/Login/showLogin");
