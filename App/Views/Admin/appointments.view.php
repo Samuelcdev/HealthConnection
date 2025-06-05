@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-<div class="box-content min-w-[1200px] w-full mx-auto mt-[50px] mb-[40px]">
+<div class="box-content max-w-[1200px] w-full mx-auto mt-[50px] mb-[40px]">
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
         <div class="flex flex-wrap gap-5 items-center">
             <h2 class="text-3xl font-bold text-gray-800">Citas Medicas</h2>
@@ -57,49 +57,55 @@ if (session_status() === PHP_SESSION_NONE) {
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 text-gray-700 text-center">
-                <?php foreach ($appointments as $appointment): ?>
-                    <tr class="hover:bg-orange-50 transition items-center content-center justify-center">
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentId']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentUserDocument']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentDoctorDocument']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentAppointmentType']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentDate']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentDate']) ?></td>
-                        <td class="p-4"><?= htmlspecialchars($appointment['appointmentObservation']) ?></td> ?? 'N/A') ?>
-                        </td>
-                        <td class="p-4">
-                            <?php if ($appointment['appointmentStatus'] === 'Pending'): ?>
-                                <span class="inline-flex items-center gap-1 text-orange-500 font-medium">
-                                    <i class="fas fa-circle text-xs"></i> Pendiente
-                                </span>
-                            <?php elseif ($appointment['appointmentStatus'] === 'Confirmed'): ?>
-                                <span class="inline-flex items-center gap-1 text-green-500 font-medium">
-                                    <i class="fas fa-circle text-xs"></i> Confirmada
-                                </span>
-                            <?php elseif ($appointment['appointmentStatus'] === 'Canceled'): ?>
-                                <span class="inline-flex items-center gap-1 text-red-500 font-medium">
-                                    <i class="fas fa-circle text-xs"></i> Cancelada
-                                </span>
-                            <?php elseif ($appointment['appointmentStatus'] === 'Finished'): ?>
-                                <span class="inline-flex items-center gap-1 text-gray-700 font-medium">
-                                    <i class="fas fa-circle text-xs"></i> Finalizada
-                                </span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="p-4">
-                            <div class="flex justify-center items-center gap-3">
-                                <button class="btn btn-sm text-blue-600 hover:text-blue-800 btn-edit-user"
-                                    data-user='<?= htmlspecialchars(json_encode($user)) ?>' title="Editar"
-                                    onclick="my_modal_2.showModal()">
-                                    <i class="fa-solid fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm text-red-500 hover:text-red-700" title="Eliminar">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </td>
+                <?php if (empty($appointments)): ?>
+                    <tr>
+                        <td colspan="11" class="text-2xl p-4 text-center text-gray-800">No se encontraron citas</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                    <?php foreach ($appointments as $appointment): ?>
+                        <tr class="hover:bg-orange-50 transition items-center content-center justify-center">
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentId']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentUserDocument']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentDoctorDocument']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentAppointmentType']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentDate']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentDate']) ?></td>
+                            <td class="p-4"><?= htmlspecialchars($appointment['appointmentObservation']) ?></td> ?? 'N/A') ?>
+                            </td>
+                            <td class="p-4">
+                                <?php if ($appointment['appointmentStatus'] === 'Pending'): ?>
+                                    <span class="inline-flex items-center gap-1 text-orange-500 font-medium">
+                                        <i class="fas fa-circle text-xs"></i> Pendiente
+                                    </span>
+                                <?php elseif ($appointment['appointmentStatus'] === 'Confirmed'): ?>
+                                    <span class="inline-flex items-center gap-1 text-green-500 font-medium">
+                                        <i class="fas fa-circle text-xs"></i> Confirmada
+                                    </span>
+                                <?php elseif ($appointment['appointmentStatus'] === 'Canceled'): ?>
+                                    <span class="inline-flex items-center gap-1 text-red-500 font-medium">
+                                        <i class="fas fa-circle text-xs"></i> Cancelada
+                                    </span>
+                                <?php elseif ($appointment['appointmentStatus'] === 'Finished'): ?>
+                                    <span class="inline-flex items-center gap-1 text-gray-700 font-medium">
+                                        <i class="fas fa-circle text-xs"></i> Finalizada
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex justify-center items-center gap-3">
+                                    <button class="btn btn-sm text-blue-600 hover:text-blue-800 btn-edit-user"
+                                        data-user='<?= htmlspecialchars(json_encode($user)) ?>' title="Editar"
+                                        onclick="my_modal_2.showModal()">
+                                        <i class="fa-solid fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm text-red-500 hover:text-red-700" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
@@ -141,7 +147,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="modal-box w-full max-w-3xl">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-2xl font-bold text-orange-500">
-                <i class="fas fa-user-plus mr-2"></i>Registrar nuevo usuario
+                <i class="fas fa-calendar-plus mr-2"></i>Crear cita medica
             </h3>
             <form method="dialog">
                 <button class="btn btn-sm btn-circle text-gray-500 hover:text-orange-500">
@@ -149,7 +155,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </button>
             </form>
         </div>
-        <form method="post" action="<?= BASE_URL ?>/Admin/createUser" class="space-y-5">
+        <form method="post" action="<?= BASE_URL ?>/Appointment/createAppointment" class="space-y-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label for="create-typeDocument" class="block text-sm font-semibold text-gray-700 mb-1">
@@ -197,18 +203,51 @@ if (session_status() === PHP_SESSION_NONE) {
                         placeholder="Correo electrónico" />
                 </div>
                 <div>
-                    <label for="create-password" class="block text-sm font-semibold text-gray-700 mb-1">
-                        <i class="fas fa-lock mr-2 text-orange-500"></i>Contraseña
+                    <label for="create-date" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-calendar mr-2 text-orange-500"></i>Fecha de la cita
                     </label>
-                    <input id="create-password" name="create-password" type="password"
+                    <input id="create-date" name="create-date" type="date"
                         class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300"
-                        placeholder="Contraseña" />
+                        placeholder="Fecha de la cita" />
+                </div>
+                <div>
+                    <label for="create-hour" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-clock mr-2 text-orange-500"></i>Hora de la cita
+                    </label>
+                    <input id="create-hour" name="create-hour" type="time"
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300" />
+                </div>
+                <div>
+                    <label for="create-typeAppointment" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-list mr-2 text-orange-500"></i>Tipo de cita
+                    </label>
+                    <select id="create-typeAppointment" name="create-typeAppointment"
+                        class="select select-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300">
+                        <option value="" selected disabled>Selecciona tipo de cita</option>
+                        <option value="1">Medicina General</option>
+                        <option value="2">Pediatría</option>
+                        <option value="3">Ginecología</option>
+                        <option value="4">Medicina Interna</option>
+                        <option value="5">Cardiología</option>
+                        <option value="6">Dermatología</option>
+                        <option value="7">Ortopedia y Traumatología</option>
+                        <option value="8">Oftalmología</option>
+                        <option value="9">Neurología</option>
+                        <option value="10">Psiquiatría</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="create-date" class="block text-sm font-semibold text-gray-700 mb-1">
+                        <i class="fas fa-user-doctor mr-2 text-orange-500"></i>Nombre del doctor
+                    </label>
+                    <input id="create-date" name="create-date" type="text" readonly
+                        class="input input-warning w-full border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-300" />
                 </div>
             </div>
             <div>
                 <button type="submit"
                     class="btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg shadow-md text-lg font-semibold transition duration-200 transform hover:scale-105">
-                    <i class="fas fa-check-circle mr-2"></i>Crear usuario
+                    <i class="fas fa-check-circle mr-2"></i>Crear cita medica
                 </button>
             </div>
         </form>

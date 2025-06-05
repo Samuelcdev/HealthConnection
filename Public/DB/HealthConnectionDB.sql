@@ -30,10 +30,12 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointment` (
   `appointmentId` int(11) NOT NULL,
   `appointmentUserDocument` bigint(11) NOT NULL,
-  `appointmentDoctorDocument` int(11) NOT NULL,
+  `appointmentUserDocumentType` int(11) NOT NULL,
+  `appointmentDoctorDocument` bigint(11) NOT NULL,
   `appointmentAppointmentType` int(11) NOT NULL,
   `appointmentDate` date NOT NULL,
-  `appointmentStatus` enum('Pending','Confirmed','Canceled','Finished') NOT NULL,
+  `appointmentHour` time NOT NULL,
+  `appointmentStatus` enum('Pending', 'Confirmed', 'Canceled', 'Finished') NOT NULL DEFAULT 'Pending',
   `appointmentObservation` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -72,7 +74,7 @@ INSERT INTO `appointmenttype` (`appointmentTypeId`, `appointmentTypeName`, `appo
 --
 
 CREATE TABLE `doctor` (
-  `doctorDocument` int(11) NOT NULL,
+  `doctorDocument` bigint(11) NOT NULL,
   `doctorName` varchar(100) NOT NULL,
   `doctorLastname` varchar(100) NOT NULL,
   `doctorPhone` varchar(20) DEFAULT NULL,
@@ -315,6 +317,7 @@ ALTER TABLE `appointment`
   ADD PRIMARY KEY (`appointmentId`),
   ADD KEY `appointmentUserDocument` (`appointmentUserDocument`),
   ADD KEY `appointmentDoctorDocument` (`appointmentDoctorDocument`),
+  ADD KEY `appointmentUserDocumentType` (`appointmentUserDocumentType`),
   ADD KEY `appointmentAppointmentType` (`appointmentAppointmentType`);
 
 --

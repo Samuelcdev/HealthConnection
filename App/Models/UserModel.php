@@ -48,7 +48,7 @@ class UserModel extends Orm
                     u.userDocument LIKE :search OR 
                     CONCAT(u.userName, ' ', u.userLastname) LIKE :search
                     )";
-            
+
             $params[':search'] = '%' . $search . '%';
         }
 

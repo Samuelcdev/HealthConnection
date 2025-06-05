@@ -10,7 +10,7 @@ class AppointmentController extends Controller
             header("Location: " . BASE_URL . "/Login/showLogin");
             exit;
         }
-        
+
         $this->appointmentModel = new AppointmentModel($connection);
     }
 
